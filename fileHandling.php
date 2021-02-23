@@ -1,99 +1,143 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <meta charset="UTF-8">
-  <title>Registration Form</title>
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8">
+    <title>Registration Form</title>
+  </head>
+  <body>
 
-  <h1>Registration Form</h1>
+    <h1>Registration Form</h1>
 
-  <?php
-    $firstNameErr = $lastNameErr = $gender =  $email = $userName = $pass = $rEmail = "" ;
-    $firstName = ""; 
-    $lastName = ""; 
-    $website = "";
+    <?php
+      $firstNameErr = $lastNameErr = $genderErr =  $emailErr = $userNameErr = $passwordErr = $rEmailErr = "" ;
 
-    if($_SERVER["REQUEST_METHOD"] == "POST") {
-      if(empty($_POST['fname'])) {
-        $firstNameErr = "Please fill up the first name properly";
+      $firstName = ""; 
+      $lastName = "";
+      $gender = "";
+      $email = "";
+      $userName= "";
+      $password= "";
+      $rEmail= "";
+
+      if($_SERVER["REQUEST_METHOD"] == "POST") {
+
+        if(empty($_POST['fname'])) {
+          $firstNameErr = "Please fill up the first name properly";
+        }
+        else {
+          $firstName = $_POST['fname'];
+        }
+
+        if(empty($_POST['lname'])) {
+          $lastNameErr = "Please fill up the last name properly";
+        }
+        else {
+          $lastName = $_POST['lname'];
+        }
+
+        if(empty($_POST['email'])) {
+          $emailErr = "Please enter your email";
+        }
+        else {
+          $email = $_POST['email'];
+
+          if (!filter_var($email, FILTER_VALIDATE_EMAIL)) 
+            { 
+              $emailErr = "Invalid email format"; 
+            }
+        }
+
+        if(empty($_POST['uname'])) {
+          $userNameErr = "Please fill up the username properly";
+          }
+        else {
+          $userName = $_POST['uname'];
+        }
+
+        if(empty($_POST['password'])) {
+          $passwordErr = "Please fill up the password properly";
+        }
+        else {
+          $password = $_POST['password'];
+        }
+
+        if(empty($_POST['remail'])) {
+        $rEmailErr = "Recovery Email is required";
+        }
+        else {
+          $rEmail = $_POST['remail'];
+        
+             if (!filter_var($rEmail, FILTER_VALIDATE_EMAIL)) 
+          { $rEmailErr = "Invalid recovery email format"; }
+        }
+
+        if (empty($_POST['gender'])) {
+               $genderErr = "Gender is required"; 
+        } 
+
+        else { 
+          $gender = $_POST['gender']; 
+        }
+        
       }
-      else {
-        $firstName = $_POST['fname'];
-      }
 
-      if(empty($_POST['lname'])) {
-        $lastNameErr = "Please fill up the last name properly";
-      }
-      else {
-        $lastName = $_POST['lname'];
+    ?>
 
-      if(empty($_POST['email'])) {
-        $lastNameErr = "Please fill up the email properly";
-      }
-      else {
-        $lastName = $_POST['email'];
+    <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']) ?>" method="POST">
+      <fieldset>
+        <legend>Basic Information: </legend>
 
+        <label for="fname">FirstName:</label>
+        <input type="text" name="fname" id="fname" value="<?php echo $firstName;?>">
+        <br>
+        <p style="color:red"><?php echo $firstNameErr; ?></p>
 
+        <label for="lname">LastName:</label>
+        <input type="text" name="lname" id="lname" value="<?php echo $lastName ?>">
+        <br>
+        <p style="color:red"><?php echo $lastNameErr; ?></p>
 
-      }
+        <span class="label">Gender:</span>
+            <label><input type="radio" name="gender" title="gender Male" >Male</label>
+            <label><input type="radio" name="gender" title="gender Female">Female</label>
+            <label><input type="radio" name="gender" title="gender Other">Other</label>
+        <br>
+        <p style="color:red"><?php echo $genderErr; ?></p>
 
+        <label for="email">Email:</label>
+        <input type="email" name="email" id="email" placeholder="...@gmail.com" value="<?php echo $email ?>">
+        <br>
+        <p style="color:red"><?php echo $emailErr; ?></p>
+
+      </fieldset>
+      <br>
+     
+      <fieldset>
+
+        <legend>User Account Information: </legend>
+
+        <label for="uname">UserName:</label>
+        <input type="text" name="uname" id="uname" value="<?php echo $userName; ?>">
+        <br>
+        <p style="color:red"><?php echo $userNameErr; ?></p>
+
+        <label for="pass">Password:</label>
+        <input type="password" name="password" id="password" value="<?php echo $password; ?>">
+        <br>
+        <p style="color:red"><?php echo $passwordErr; ?></p>
+        
+        <label for="remail">Recovery Email Address:</label>
+        <input type="email" name="remail" id="remail" placeholder="...@gmail.com" value="<?php echo $rEmail ?>">
+        <br>
+        <p style="color:red"><?php echo $rEmailErr; ?></p>
+
+      </fieldset>
+      <br>
       
-    }
-  ?>
+      <input type="submit" value="Submit">
 
-  <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']) ?>" method="POST">
-    <fieldset>
-      <legend>Basic Information: </legend>
-
-      <label for="fname">FirstName:</label>
-      <input type="text" name="" id="fname">
-      <br>
-      <p style="color:red"><?php echo $firstNameErr; ?></p>
-
-      <label for="lname">LastName:</label>
-      <input type="text" name="" id="lfname">
-      <br>
-      <p style="color:red"><?php echo $lastNameErr; ?></p>
-
-      <span class="label">Gener:</span>
-          <label><input type="radio" name="gender" id="male" title="gender Male">Male</label>
-          <label><input type="radio" name="gender" id="female" title="gender Female">Female</label>
-          <label><input type="radio" name="gender" id="other" title="gender Other">Other</label>
+      </form>
       <br>
 
-      <label for="email">Email:</label>
-      <input type="email" name="" id="email" placeholder="...@gmail.com">
-      <br>
-
-    </fieldset>
-    <br>
-   
-
-    <fieldset>
-
-      <legend>User Account Information: </legend>
-
-      <label for="uname">UserName:</label>
-      <input type="text" name="" id="uname">
-      <br>
-
-      <label for="pass">Password:</label>
-      <input type="password" name="" id="pass">
-      <br>
-      
-      <label for="remail">Recovery Email Address:</label>
-      <input type="email" name="" id="remail" placeholder="...@gmail.com">
-      <br>
-
-    </fieldset>
-    <br>
-    
-    <input type="submit" value="Submit">
-
-  </form>
-  <br>
-  
-
-</body>
+    </body>
 </html>
