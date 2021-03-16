@@ -97,11 +97,16 @@
         <br>
         <p style="color:red"><?php echo $lastNameErr; ?></p>
 
-        <span class="label">Gender:</span>
-            <label><input type="radio" name="gender" title="gender Male" >Male</label>
-            <label><input type="radio" name="gender" title="gender Female">Female</label>
-            <label><input type="radio" name="gender" title="gender Other">Other</label>
-        <br>
+        <label for="gender">Choose Gender:</label>
+
+        <input type="radio" name="gender" 
+        <?php if (isset($gender) && $gender=="male") echo "checked";?> value="male">Male 
+
+        <input type="radio" name="gender" 
+        <?php if (isset($gender) && $gender=="female") echo "checked";?> value="female">Female 
+
+        <input type="radio" name="gender" 
+        <?php if (isset($gender) && $gender=="other") echo "checked";?> value="other">Other
         <p style="color:red"><?php echo $genderErr; ?></p>
 
         <label for="email">Email:</label>
@@ -132,12 +137,48 @@
         <p style="color:red"><?php echo $rEmailErr; ?></p>
 
       </fieldset>
-      <br>
-      
-      <input type="submit" value="Submit">
+    <br>
 
-      </form>
-      <br>
+    <input type="submit" value="Submit">
+
+    </form>
+    <br>
+
+    <?php
+
+    if($firstName != "" && $lastName != "" && $gender != "" && $email != "" && $userName != "" && $password != "" && $rEmail != "")
+    {
+  
+
+      $File = "shatin.txt";
+      $Handle = fopen($File, 'a');        
+    
+      fwrite($Handle, $firstName); 
+      fwrite($Handle, ",");
+      fwrite($Handle, $lastName);
+      fwrite($Handle, ",");
+      fwrite($Handle, $gender);
+      fwrite($Handle, ",");
+      fwrite($Handle, $email);
+      fwrite($Handle, ",");
+      fwrite($Handle, $userName);
+      fwrite($Handle, ",");
+      fwrite($Handle, $password);
+      fwrite($Handle, ",");
+      fwrite($Handle, $rEmail);
+      fwrite($Handle, "\n");
+      
+      fclose($Handle); 
+    }
+
+    $file = "shatin.txt";
+    $open = fopen($file, 'r');
+    $read = fread($open, filesize($file));
+    $line= (explode("\n", $read));
+
+    fclose($open);
+    
+    ?>
 
     </body>
 </html>
